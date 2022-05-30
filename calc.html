@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        font-family: Gotham Rounded, sans-serif;
+        font-weight: normal;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(
+          to right,
+          rgb(225, 227, 240),
+          rgb(79, 100, 196)
+        );
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .calculator-grid {
+        display: grid;
+        justify-content: center;
+        align-content: center;
+        min-height: 100vh;
+        grid-template-columns: repeat(4, 100px);
+        grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+      }
+
+      .calculator-grid > button {
+        cursor: pointer;
+        font-size: 2rem;
+        border: 1px, solid #ffffff;
+        outline: none;
+        background-color: rbga(255, 255, 255, 0.75);
+      }
+
+      .calculator-grid > button:hover {
+        background-color: #4982c4;
+      }
+
+      .span-two {
+        grid-column: span 2;
+        color: #adf802;
+        background-color: rgba(30, 25, 92, 0.8);
+      }
+
+      .output {
+        grid-column: 1 / -1;
+        background-color: rgba(0, 0, 0, 0.75);
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+        flex-direction: column;
+        padding: 10px;
+        word-wrap: break-word;
+        word-break: break-all;
+      }
+
+      .output .current-operand {
+        color: white;
+        font-size: 2.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>IT232 Assignment 2: JavaScript Calculator</h1>
+    <div class="calculator-grid">
+      <div class="output">
+        <!-- <div class="previous-operand"></div> -->
+        <div class="current-operand"></div>
+      </div>
+      <button class="span-two" button-operation-AllClear>AC</button>
+      <button button-operation-del>DEL</button>
+      <button button-divide>÷</button>
+      <button button-number-1>1</button>
+      <button button-number-2>2</button>
+      <button button-number-3>3</button>
+      <button button-operand-mult>*</button>
+      <button button-number-4>4</button>
+      <button button-number-5>5</button>
+      <button button-number-6>6</button>
+      <button button-operand-plus>+</button>
+      <button button-number-7>7</button>
+      <button button-number-8>8</button>
+      <button button-number-9>9</button>
+      <button button-operand-minus>-</button>
+      <button button-operation-decimal>.</button>
+      <button button-number-0>0</button>
+      <button class="span-two" button-operations-equals>=</button>
+    </div>
+  </body>
+  <script>
+    const f_button1 = function () {
+      f_updateOutput("1");
+    };
+
+    const f_button2 = function () {
+      f_updateOutput("2");
+    };
+
+    const f_button3 = function () {
+      f_updateOutput("3");
+    };
+
+    const f_button4 = function () {
+      f_updateOutput("4");
+    };
+
+    const f_button5 = function () {
+      f_updateOutput("5");
+    };
+
+    const f_button6 = function () {
+      f_updateOutput("6");
+    };
+
+    const f_button7 = function () {
+      f_updateOutput("7");
+    };
+
+    const f_button8 = function () {
+      f_updateOutput("8");
+    };
+
+    const f_button9 = function () {
+      f_updateOutput("9");
+    };
+
+    const f_button0 = function () {
+      f_updateOutput("0");
+    };
+
+    const f_buttonAC = function () {
+      calcOutput.textContent = "0";
+      num1 = null;
+      operand = null;
+    };
+
+    const f_buttonDelete = function () {
+      f_updateOutput(DELETE);
+    };
+
+    const f_buttonDivide = function () {
+      f_calculate(DIVIDE);
+    };
+
+    const f_buttonMultiply = function () {
+      f_calculate(MULTIPLTY);
+    };
+
+    const f_buttonPlus = function () {
+      f_calculate(PLUS);
+    };
+
+    const f_buttonMinus = function () {
+      f_calculate(MINUS);
+    };
+
+    const f_buttonDecimal = function () {
+      f_updateOutput(".");
+    };
+
+    const f_buttonEquals = function () {
+      f_calculate(EQUAL);
+    };
+
+    const f_updateOutput = function (keyPress) {
+      if (nextUpdateScreenClear) {
+        calcOutput.textContent = keyPress;
+        nextUpdateScreenClear = false;
+        return;
+      }
+
+      if (keyPress === DELETE) {
+        //console.log("here");
+        calcOutput.textContent = calcOutput.textContent.slice(0, -1);
+        console.log(calcOutput.textContent);
+        if (calcOutput.textContent === "") calcOutput.textContent = 0;
+        console.log(calcOutput.textContent);
+        return;
+      }
+
+      if (keyPress === ".") {
+        if (calcOutput.textContent.includes(".")) {
+          //console.log("here");
+          return;
+        }
+      }
+
+      if (calcOutput.textContent === "0") {
+        calcOutput.textContent = keyPress;
+        return;
+      }
+
+      calcOutput.textContent = calcOutput.textContent + keyPress;
+    };
+
+    const f_operation = function (num1, num2, operand) {
+      num1 = Number(num1);
+      num2 = Number(num2);
+
+      if (operand == PLUS) {
+        console.log("PLUS OPERATION");
+        result = num1 + num2;
+      } else if (operand == MINUS) {
+        console.log("MINUS OPERATION");
+        result = num1 - num2;
+      } else if (operand == MULTIPLTY) {
+        console.log("MULTIPLTY OPERATION");
+        result = num1 * num2;
+      } else if (operand == DIVIDE) {
+        console.log("DIVIDE OPERATION");
+        result = num1 / num2;
+      }
+
+      return result;
+    };
+
+    const f_calculate = function (currOperand) {
+      //case 1
+      if (num1 == null && currOperand == EQUAL) {
+        nextUpdateScreenClear = true;
+        return;
+      }
+
+      //case 2
+      if (num1 == null && currOperand != EQUAL) {
+        num1 = calcOutput.textContent;
+        operand = currOperand;
+        nextUpdateScreenClear = true;
+        return;
+      }
+
+      // case 3
+      if (num1 != null && operand != null) {
+        num2 = calcOutput.textContent;
+        num1 = f_operation(num1, num2, operand);
+        calcOutput.textContent = num1;
+        operand = currOperand;
+        nextUpdateScreenClear = true;
+        return;
+      }
+
+      //case 4
+      if (operand != null && currOperand == EQUAL) {
+        num2 = calcOutput.textContent;
+        num1 = f_operation(num1, num2, operand);
+        num2 = null;
+        operand = null;
+        nextUpdateScreenClear = true;
+        return;
+      }
+    };
+
+    /* Global constants */
+    const PLUS = 1;
+    const MINUS = 2;
+    const MULTIPLTY = 3;
+    const DIVIDE = 4;
+    const EQUAL = 5;
+    const DELETE = 6;
+
+    /* Global variables*/
+
+    let num1 = null;
+    let operand = null;
+    let nextUpdateScreenClear = false;
+
+    // set the selector to the calulator output
+    let calcOutput = document.querySelector(".current-operand");
+    calcOutput.textContent = "0";
+
+    // Tie the button press to a function
+    let button1 = document.querySelector("[button-number-1]");
+    button1.addEventListener("click", f_button1);
+
+    let button2 = document.querySelector("[button-number-2]");
+    button2.addEventListener("click", f_button2);
+
+    let button3 = document.querySelector("[button-number-3]");
+    button3.addEventListener("click", f_button3);
+
+    let button4 = document.querySelector("[button-number-4]");
+    button4.addEventListener("click", f_button4);
+
+    let button5 = document.querySelector("[button-number-5]");
+    button5.addEventListener("click", f_button5);
+
+    let button6 = document.querySelector("[button-number-6]");
+    button6.addEventListener("click", f_button6);
+
+    let button7 = document.querySelector("[button-number-7]");
+    button7.addEventListener("click", f_button7);
+
+    let button8 = document.querySelector("[button-number-8]");
+    button8.addEventListener("click", f_button8);
+
+    let button9 = document.querySelector("[button-number-9]");
+    button9.addEventListener("click", f_button9);
+
+    let button0 = document.querySelector("[button-number-0]");
+    button0.addEventListener("click", f_button0);
+
+    let buttonAC = document.querySelector("[button-operation-AllClear]");
+    buttonAC.addEventListener("click", f_buttonAC);
+
+    let buttonDel = document.querySelector("[button-operation-del]");
+    buttonDel.addEventListener("click", f_buttonDelete);
+
+    let buttonDivide = document.querySelector("[button-divide]");
+    buttonDivide.addEventListener("click", f_buttonDivide);
+
+    let buttonMultiply = document.querySelector("[button-operand-mult]");
+    buttonMultiply.addEventListener("click", f_buttonMultiply);
+
+    let buttonPlus = document.querySelector("[button-operand-plus]");
+    buttonPlus.addEventListener("click", f_buttonPlus);
+
+    let buttonMinus = document.querySelector("[button-operand-minus]");
+    buttonMinus.addEventListener("click", f_buttonMinus);
+
+    let buttonDecimal = document.querySelector("[button-operation-decimal]");
+    buttonDecimal.addEventListener("click", f_buttonDecimal);
+
+    let buttonEquals = document.querySelector("[button-operations-equals]");
+    buttonEquals.addEventListener("click", f_buttonEquals);
+  </script>
+</html>
