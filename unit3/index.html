@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script>
+      //var _ = "lodash/array";
+      //var _ = require("https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js");
+
+      const getRegionColumn = function (region) {
+        let regionColumnFound = -1;
+        for (let c = 0; c < salesRegion[0].length; c++) {
+          if (salesRegion[0][c] === region) {
+            //document.write(`C is ${c}`);
+            regionColumnFound = c;
+            break;
+          }
+        }
+        return regionColumnFound;
+      };
+
+      //*********************************************************
+      //****Assignment 3 Section 1
+      //*********************************************************
+
+      //document.write("Section 1: Two-dimensional Array.");
+      document.write("<h3>Section 1: Two-dimensional Array.</h3>");
+      //[row][column]
+      let salesRegion = [
+        ["North", "South", "East", "West"],
+        ["Bob", "Sue", "Nathan", "Wanda"],
+        ["Stef", "Janice", "Henry", "Charles"],
+        ["Ron", "Will", "Kimmy", "Pete"],
+      ];
+
+      for (let c = 0; c < salesRegion.length; c++) {
+        for (let r = 0; r < salesRegion[0].length; r++) {
+          document.write(`${salesRegion[r][c]}<br>`);
+        }
+      }
+
+      //*********************************************************
+      //****Assignment 3 Section 2
+      //*********************************************************
+
+      document.write("<br><br><h3>Section 2: Array List.</h3>");
+
+      let salesTeam = [];
+
+      //Enter in all the names of the salesTeam from two dem array into Salesteam for North
+      let northColumn = getRegionColumn("North");
+      let southColumn = getRegionColumn("South");
+
+      //we know that first row is the region columns
+      for (let r = 1; r < salesRegion.length; r++) {
+        salesTeam.push(salesRegion[r][northColumn]);
+      }
+
+      document.write(
+        `There are ${salesTeam.length} names in the salesTeam arraylist.<br><br>`
+      );
+
+      for (let r = 1; r < salesRegion.length; r++) {
+        salesTeam.push(salesRegion[r][southColumn]);
+      }
+
+      if (salesTeam.includes("Stef")) {
+        document.write("Stef is in the salesTeam arraylist.<br>");
+      } else {
+        document.write("Stef is not in the salesTeam arraylist.<br>");
+      }
+
+      document.write(
+        `<br>There are ${salesTeam.length} names in the salesTeam arraylist.<br>`
+      );
+
+      //Using the Lodash array library to remove the element easily
+      salesTeam = _.remove(salesTeam, (name) => name != "Janice");
+      salesTeam = _.remove(salesTeam, (name) => name != "Ron");
+
+      document.write(
+        `<br>There are ${salesTeam.length} names in the salesTeam arraylist.<br>`
+      );
+
+      document.write("<br>Names currently in the salesTeam arraylist.<br>");
+      for (let i = 0; i < salesTeam.length; i++) {
+        document.write(`${salesTeam[i]}<br>`);
+      }
+    </script>
+  </body>
+</html>
